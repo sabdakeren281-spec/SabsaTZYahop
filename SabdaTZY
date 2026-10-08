@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SabdaTZYshop - Top Up MLBB</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#070b18;color:#fff;
+ font-family:Arial,sans-serif
+}
+header{
+ text-align:center;padding:30px 15px;
+ background:linear-gradient(135deg,#101b48,#6817a8)
+}
+header h1{color:#ffd43b;margin:0 0 8px}
+.container{max-width:950px;width:94%;margin:22px auto}
+.card{
+ background:#11172c;border:1px solid #293252;
+ border-radius:18px;padding:20px;margin-bottom:20px
+}
+h2{color:#ffd43b}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(135px,1fr));
+ gap:10px
+}
+.item{
+ background:#1a2140;border:1px solid #303b64;
+ border-radius:12px;padding:13px;
+ text-align:center;cursor:pointer
+}
+.item:hover,.item.active{
+ border-color:#ffd43b;
+ background:#282f52
+}
+.dm{color:#62dcff;font-weight:bold}
+.price{color:#ffd43b;margin-top:6px;font-weight:bold}
+label{display:block;margin:12px 0 6px}
+input{
+ width:100%;padding:13px;border-radius:9px;
+ border:1px solid #37436c;background:#080d1d;color:white
+}
+.total{
+ margin-top:18px;padding:15px;
+ background:#080d1d;border-radius:10px;text-align:center
+}
+.total b{color:#ffd43b;font-size:22px}
+.qr{text-align:center}
+.qr img{width:230px;max-width:100%;background:white;padding:8px;border-radius:12px}
+button{
+ width:100%;padding:15px;margin-top:15px;
+ border:0;border-radius:11px;
+ background:#20d66b;color:white;
+ font-size:17px;font-weight:bold
+}
+small{color:#999}
+footer{text-align:center;color:#777;padding:25px}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>⚡ SabdaTZYshop</h1>
+<p>💎 Top Up Diamond Mobile Legends</p>
+</header>
+
+<div class="container">
+
+<div class="card">
+<h2>💎 Pilih Nominal Diamond</h2>
+
+<div class="grid" id="produk"></div>
+</div>
+
+<div class="card">
+<h2>🎮 Data Akun MLBB</h2>
+
+<label>User ID</label>
+<input id="userid" placeholder="Contoh: 123456789">
+
+<label>Zone ID</label>
+<input id="zoneid" placeholder="Contoh: 1234">
+
+<div class="total">
+Pilihan: <span id="pilihan">Belum dipilih</span><br><br>
+Total: <b id="harga">Rp0</b>
+</div>
+</div>
+
+<div class="card qr">
+<h2>💳 Pembayaran</h2>
+
+<!-- GANTI dengan QRIS ASLI KAMU -->
+<img src="qr-payment.png"
+alt="QRIS SabdaTZYshop"
+onerror="this.outerHTML='<p>📌 Masukkan QRIS asli kamu<br><small>Nama file: qr-payment.png</small></p>'">
+
+<p>
+Scan QRIS untuk pembayaran.<br>
+Setelah membayar, kirim bukti pembayaran melalui WhatsApp.
+</p>
+</div>
+
+<div class="card">
+<h2>📲 Konfirmasi Pesanan</h2>
+<button onclick="pesan()">Pesan via WhatsApp</button>
+<p style="text-align:center;color:#999">
+WhatsApp: 0895347463336
+</p>
+</div>
+
+</div>
+
+<footer>
+© 2026 SabdaTZYshop
+</footer>
+
+<script>
+
+const data = [
+["5 DM",3000],["12 DM",5000],["19 DM",7000],["28 DM",9000],
+["36 DM",11000],["44 DM",13000],["56 DM",15000],["70 DM",17000],
+["86 DM",22000],["100 DM",25000],["112 DM",27000],["128 DM",30000],
+["140 DM",32000],["156 DM",35000],["172 DM",42000],["184 DM",45000],
+["200 DM",48000],["212 DM",50000],["229 DM",53000],["257 DM",62000],
+["277 DM",66000],["296 DM",70000],["314 DM",74000],["344 DM",82000],
+["365 DM",86000],["384 DM",90000],["429 DM",102000],["458 DM",108000],
+["504 DM",118000],["514 DM",122000],["550 DM",130000],["568 DM",134000],
+["600 DM",140000],["625 DM",146000],["658 DM",154000],["706 DM",165000],
+["772 DM",180000],["878 DM",204000],["963 DM",224000],["1050 DM",244000],
+["1150 DM",266000],["1250 DM",288000],["1350 DM",310000],["1450 DM",332000],
+["1500 DM",342000],["1750 DM",398000],["2000 DM",454000],
+["2500 DM",566000],["3000 DM",678000],["5000 DM",1128000]
+];
+
+let selected=null;
+
+const produk=document.getElementById("produk");
+
+data.forEach((x,i)=>{
+ const div=document.createElement("div");
+ div.className="item";
+ div.innerHTML=
+ `<div class="dm">💎 ${x[0]}</div>
+  <div class="price">Rp${x[1].toLocaleString("id-ID")}</div>`;
+
+ div.onclick=()=>{
+   document.querySelectorAll(".item")
+   .forEach(a=>a.classList.remove("active"));
+
+   div.classList.add("active");
+   selected=x;
+
+   document.getElementById("pilihan").textContent=x[0];
+   document.getElementById("harga").textContent=
+   "Rp"+x[1].toLocaleString("id-ID");
+ };
+
+ produk.appendChild(div);
+});
+
+function pesan(){
+
+ const userid=document.getElementById("userid").value.trim();
+ const zoneid=document.getElementById("zoneid").value.trim();
+
+ if(!selected){
+   alert("Pilih nominal Diamond terlebih dahulu!");
+   return;
+ }
+
+ if(!userid || !zoneid){
+   alert("Isi User ID dan Zone ID terlebih dahulu!");
+   return;
+ }
+
+ const nomor="6289534746336";
+
+ const text =
+ `Halo SabdaTZYshop 👋
+
+Saya ingin top up MLBB.
+
+💎 Diamond: ${selected[0]}
+💰 Harga: Rp${selected[1].toLocaleString("id-ID")}
+🎮 User ID: ${userid}
+🌐 Zone ID: ${zoneid}
+
+Saya sudah melakukan pembayaran.
+Saya akan mengirim bukti pembayaran di chat ini.`;
+
+ window.open(
+   "https://wa.me/"+nomor+
+   "?text="+encodeURIComponent(text),
+   "_blank"
+ );
+}
+
+</script>
+
+</body>
+</html>
